@@ -8,8 +8,15 @@ export default function HomeScreen({ navigation }) {
 
     const handlePress = (id) => {
       console.log("Han clicat al botó " + id);
+      if (id == 2){
+        navigation.navigate("Page1");
+      }else if (id == 3){
+        navigation.navigate("Page2");
+      }
+        
+
     };
-    
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text style={{ marginTop: 100 }}>Home Screen</Text>

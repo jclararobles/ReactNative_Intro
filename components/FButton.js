@@ -1,27 +1,43 @@
 import React from 'react';
-import { View, Text, Button} from 'react-native';
-    
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 export default function FButton({ 
-    selectedImage,
-    unselectedImage,
+    selectedIcon,
+    unselectedIcon,
     id,
     isSelected,
-    onPress }) {
- 
-  
+    onPress 
+}) {
+
     return (
-        <TouchableOpacity onPress={() => onPress(id)}>
-            <Image
-                source={isSelected ? selectedImage : unselectedImage}
-                style={styles.image}
-            />
+        <TouchableOpacity onPress={() => onPress(id)} style={styles.buttonContainer}>
+            <View style={styles.iconContainer}>
+                <Icon
+                    name={isSelected ? selectedIcon : unselectedIcon}
+                    size={50}
+                    style={styles.icon}
+                />
+                {isSelected && <View style={styles.selectedLine} />}
+            </View>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
-    image: {
-        width: 100, // Ajusta el tamaño según tus necesidades
-        height: 100,
+    buttonContainer: {
+        alignItems: 'center',
+    },
+    iconContainer: {
+        alignItems: 'center',
+    },
+    icon: {
+        margin: 10,
+    },
+    selectedLine: {
+        height: 2,
+        backgroundColor: 'black',
+        width: 50, // Ajusta este valor para que coincida con el tamaño del icono o lo que necesites
+        marginTop: 5,
     },
 });
