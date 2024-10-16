@@ -18,9 +18,15 @@ export default function HomeScreen({ navigation }) {
     };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ marginTop: 100 }}>Home Screen</Text>
-      <FSection  currentSection = {1} onPress={handlePress} />
+    <View style={{flex:1}}>
+      <View style={{ flex: 7, backgroundColor:'red', justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ marginTop: 100 }}>Home Screen</Text>
+      </View>
+      <View style={{ flex: 1, backgroundColor:'green'}}>
+        <FSection  currentSection = {1} onPress={handlePress} />
+      </View>
     </View>
+    
   );
 }
+
