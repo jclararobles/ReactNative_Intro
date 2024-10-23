@@ -3,10 +3,16 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; // Asegúrate de haber instalado react-native-vector-icons
 
 const QuestionCell = ({ imageUrl, title, latitude, longitude, onPress }) => {
+  
+  // Si no hay imageUrl, usar imagen por defecto
+  const imageSource = imageUrl
+    ? { uri: imageUrl }
+    : require('../assets/images/defaultImage.jpeg'); // Ruta a tu imagen por defecto
+
   return (
     <View style={styles.container}>
       {/* Imagen en el 30% de la celda */}
-      <Image source={{ uri: imageUrl }} style={styles.image} />
+      <Image source={imageSource} style={styles.image} />
 
       {/* Contenedor de texto para el título y coordenadas */}
       <View style={styles.textContainer}>
