@@ -1,76 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import FSection from '../components/FSection';
-import QuestionCell from '../components/QuestionCell';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../utils/firebaseConfig'; // Asegúrate de importar tu configuración de Firebase
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
+// Pantalla d'inici del joc
+const HomeScreen = () => {
+  const navigation = useNavigation(); // Hook per navegar entre pantalles
 
-export default function HomeScreen({ navigation }) {
-    
-    const [data, setData] = useState([]); // Estado para almacenar los datos de Firestore
-
-
-    // Función para obtener los datos desde Firestore
-    const fetchData = async () => {
-      try {
-          const querySnapshot = await getDocs(collection(db, 'Preguntes'));
-          const dataFromFirestore = querySnapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(), // Agregar los datos de cada documento
-          }));
-          console.log(JSON.stringify(dataFromFirestore));
-          setData(dataFromFirestore); // Guardar los datos en el estado
-      } catch (error) {
-          console.error("Error al obtener los datos: ", error);
-      }
+  // Funció que porta a la pantalla del joc
+  const handleStartGame = () => {
+    navigation.navigate('GameScreen');
   };
 
-  // Cargar los datos al montar el componente
-  useEffect(() => {
-      fetchData();
-  }, []);
+  return (
+    <View style={styles.container}>
+      {/* Títol del joc */}
+      <Text style={styles.gameTitle}>GEOGUESSER JOVIAT</Text>
+      
+      {/* Botó per començar el joc */}
+      <TouchableOpacity
+        style={styles.startButton}
+        onPress={handleStartGame}
+      >
+        <Text style={styles.startButtonText}>Start Game</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
-    // Función para manejar los eventos onPress de las celdas
-    const handlePress = (id) => {
-      console.log("Han clicat al botó " + id);
-      if (id === '2') {
-        navigation.navigate("Page1");
-      } else if (id === '3') {
-        navigation.navigate("Page2");
-      }
-    };
+const styles = StyleSheet.create({
+  // Estil del contenidor principal
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#252422',
+    padding: 20,
+  },
+  // Estil del títol del joc
+  gameTitle: {
+    fontSize: 35,
+    color: '#EB5E28',
+    fontWeight: 'bold',
+    marginBottom: 10, 
+    textAlign: 'center',
+  },
+  // Estil del botó de començar
+  startButton: {
+    backgroundColor: '#EB5E28',
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 8,
+    marginTop: 20,
+  },
+  // Estil del text del botó
+  startButtonText: {
+    color: '#FFFFFF',
+    fontSize: 25,
+  },
+});
 
-    // Renderizar cada celda
-    const renderItem = ({ item }) => (
-      <QuestionCell 
-        imageUrl={item.ImageURL}
-        title={item.Title}
-        latitude={item.GeoLocation.latitude}
-        longitude={item.GeoLocation.longitude}
-        onPress={() => handlePress(item.id)}
-      />
-    );
-
-    return (
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 7, backgroundColor: 'white' }}>
-          <Text style={{ marginTop: 100, textAlign: 'center' }}>Home Screen</Text>
-
-          {/* FlatList para mostrar el array de celdas */}
-          <View style={{height:'50%'}}>
-            <FlatList 
-              data={data}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-            />
-          </View>
-          
-        </View>
-
-        <View style={{ flex: 1, backgroundColor: 'green' }}>
-          <FSection currentSection={1} onPress={handlePress} />
-        </View>
-      </View>
-    );
-}
+export default HomeScreen;
